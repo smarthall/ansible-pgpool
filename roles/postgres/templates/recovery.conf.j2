@@ -1,0 +1,6 @@
+standby_mode = 'on'
+primary_conninfo = 'host={{ postgres_master }} user=repl password=replpass'
+restore_command = 'cp /var/lib/postgresql/9.1/archive/%f %p'
+recovery_target_timeline='latest'
+trigger_file = '/tmp/pgsql.trigger'
+

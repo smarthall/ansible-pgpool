@@ -1,0 +1,28 @@
+---
+- name: Configure Postgres
+  template: src={{ item }}.j2 dest=/var/lib/pgsql/9.3/data/{{ item }} owner=postgres group=postgres mode=600
+  with_items:
+   - postgresql.conf
+   - pg_hba.conf
+  notify: restart postgres
+
+- name: Start Postgres
+  service: name=postgresql-9.3 state=started enabled=yes
+
+- name: Create Postgres Replication User
+  postgresql_user:
+    name: repl
+    password: replpass
+    role_attr_flags: REPLICATION
+  sudo_user: postgres
+
+- name: Create Postgres pgPool User
+  postgresql_user:
+    name: pgpool
+    password: poolpass
+    role_attr_flags: LOGIN
+  sudo_user: postgres
+
+- name: Save the state of this machine
+  copy: content='{"postgres_status":"master"}' dest=/etc/ansible/facts.d/postgres.fact
+

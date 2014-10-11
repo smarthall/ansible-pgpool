@@ -1,0 +1,34 @@
+---
+- name: Set the postgres_status fact up
+  set_fact: postgres_status={{ ansible_local.postgres.postgres_status|default("not configured") }}
+
+- name: Prepare to get master
+  set_fact: postgres_master="not configured"
+
+- name: Try to find the master
+  with_items: play_hosts
+  delegate_to: "{{ item }}"
+  when: hostvars[item].postgres_status == "master"
+  set_fact: postgres_master={{ item }}
+
+- name: If there is no master, pick one at random
+  set_fact: postgres_master={{ play_hosts|random }}
+  when: postgres_master == "not configured" and inventory_hostname == play_hosts[0]
+
+- name: Replicate the choice to all nodes
+  set_fact: postgres_master={{ hostvars[play_hosts[0]].postgres_master }}
+  when: postgres_master == "not configured"
+
+- debug: msg="The Postgres master is {{ postgres_master }}."
+  run_once: yes
+
+- name: Update masters status
+  set_fact: postgres_status="master"
+  when: postgres_master == inventory_hostname
+
+- name: Update slaves status
+  set_fact: postgres_status="slave"
+  when: postgres_master != inventory_hostname
+
+- debug: msg="I am a postgres {{ postgres_status }} server."
+

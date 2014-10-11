@@ -1,15 +1,13 @@
 ---
-- name: Provision Postgres servers
+- name: Setup the postgres machines
   hosts: postgres
-  tasks:
-   - debug: var=hostvars[inventory_hostname]
+  pre_tasks:
+   - debug: var=ansible_local
   roles:
    - vagrant_sudo_fix
    - etc_hosts
    - epel
-
+   - postgres
    - role: ssh_cluster
-     ansible_group: postgres
      ssh_user: postgres
 
-   - postgres

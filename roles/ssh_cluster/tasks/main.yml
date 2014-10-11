@@ -6,7 +6,7 @@
 - name: Install key on remote hosts
   authorized_key: user={{ ssh_user }} key="{{ sshkey.ssh_public_key }}"
   delegate_to: "{{ item }}"
-  with_items: groups[ansible_group]
+  with_items: play_hosts
 
 - name: Setup known hosts file
   template: src=known_hosts.j2 dest=/etc/ssh/ssh_known_hosts mode=0644 owner=root group=root

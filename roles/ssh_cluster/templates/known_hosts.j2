@@ -1,4 +1,4 @@
-{% for host in groups[ansible_group] %}
+{% for host in play_hosts %}
 {{ host }},{{ hostvars[host].ansible_eth1.ipv4.address }} ssh-rsa {{ hostvars[host].ansible_ssh_host_key_rsa_public }}
 {% endfor %}
 
