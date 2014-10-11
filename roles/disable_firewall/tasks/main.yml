@@ -1,0 +1,4 @@
+---
+- name: Disable the CentOS firewall
+  service: name=iptables state=stopped enabled=no
+

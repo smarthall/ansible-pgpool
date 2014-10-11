@@ -1,0 +1,21 @@
+---
+# For some reason this pretends to fail >.<
+- name: Update libevent
+  yum: name={{ item }} state=latest
+  with_items:
+   - libevent
+   - nfs-utils
+   - libtirpc
+  ignore_errors: yes
+
+- name: Install pgPool
+  yum: name={{ item }} state=installed
+  with_items:
+   - pgpool-II-93
+
+- name: Configure pgPool
+  template: src={{ item }}.j2 dest=/etc/pgpool-II-93/{{ item }} mode=0644 owner=root group=root
+  with_items:
+   - pcp.conf
+   - pgpool.conf
+

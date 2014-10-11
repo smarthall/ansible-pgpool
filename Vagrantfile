@@ -5,7 +5,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "CentOS-6.4"
+  config.vm.box = "hansode/centos-6.5-x86_64"
 
   config.vm.define 'postgres-1' do |machine|
     machine.vm.hostname = 'postgres-1'
