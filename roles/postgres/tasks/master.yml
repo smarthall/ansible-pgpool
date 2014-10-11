@@ -6,6 +6,9 @@
    - pg_hba.conf
   notify: restart postgres
 
+- name: Remove the recovery file if it exists
+  file: path=/var/lib/pgsql/9.3/data/recovery.conf state=absent
+
 - name: Start Postgres
   service: name=postgresql-9.3 state=started enabled=yes
 
