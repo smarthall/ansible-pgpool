@@ -1,0 +1,14 @@
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+# "local" is for Unix domain socket connections only
+local   all             all                                     peer
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            ident
+# IPv6 local connections:
+host    all             all             ::1/128                 ident
+
+# Replication
+host    replication     repl            {{ ansible_eth1.ipv4.address }}/24  md5
+
+# pgPool
+host    all             pgpool          {{ ansible_eth1.ipv4.address }}/24  md5
+

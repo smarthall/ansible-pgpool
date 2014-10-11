@@ -4,6 +4,7 @@
   tasks:
    - debug: var=hostvars[inventory_hostname]
   roles:
+   - vagrant_sudo_fix
    - etc_hosts
    - epel
 

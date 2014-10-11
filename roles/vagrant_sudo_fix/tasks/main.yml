@@ -1,0 +1,8 @@
+---
+- name: Fix sudo to allow sudo to all users
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^%wheel ALL\='
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
