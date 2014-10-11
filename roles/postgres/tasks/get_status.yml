@@ -1,6 +1,13 @@
 ---
+- name: Set default postgres_status
+  set_fact: postgres_status="not configured"
+
+# The when clause here is huge because we have to check the whole chain of variables
+# To find out why see:
+#   https://groups.google.com/d/msg/ansible-project/ABGkTTLYmQk/RjpvX0E1_h8J
 - name: Set the postgres_status fact up
   set_fact: postgres_status={{ ansible_local.postgres.postgres_status|default("not configured") }}
+  when: ansible_local is defined and ansible_local.postgres is defined and ansible_local.postgres.postgres_status is defined
 
 - name: Prepare to get master
   set_fact: postgres_master="not configured"
