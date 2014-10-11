@@ -1,8 +1,6 @@
 ---
 - name: Setup the postgres machines
   hosts: postgres
-  pre_tasks:
-   - debug: var=ansible_local
   roles:
    - vagrant_sudo_fix
    - etc_hosts
