@@ -6,4 +6,9 @@
   roles:
    - etc_hosts
    - epel
+
+   - role: ssh_cluster
+     ansible_group: postgres
+     ssh_user: postgres
+
    - postgres
