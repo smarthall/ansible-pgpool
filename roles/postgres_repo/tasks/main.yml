@@ -1,0 +1,4 @@
+---
+- name: Install Official Postgres Repo
+  yum: name="http://yum.postgresql.org/9.3/redhat/rhel-6-{{ ansible_userspace_architecture }}/pgdg-redhat93-9.3-1.noarch.rpm"
+

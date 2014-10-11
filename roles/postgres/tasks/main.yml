@@ -1,0 +1,10 @@
+---
+- name: Install Postgres
+  yum: name={{ item }} state=installed
+  with_items:
+   - postgresql93
+   - postgresql93-libs
+   - postgresql93-devel
+   - postgresql93-server
+   - postgresql93-contrib
+

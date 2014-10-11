@@ -1,0 +1,9 @@
+---
+- name: Provision Postgres servers
+  hosts: postgres
+  tasks:
+   - debug: var=hostvars[inventory_hostname]
+  roles:
+   - etc_hosts
+   - epel
+   - postgres
