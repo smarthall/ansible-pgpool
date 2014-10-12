@@ -18,4 +18,15 @@
   with_items:
    - pcp.conf
    - pgpool.conf
+   - pool_hba.conf
+  notify: restart pgpool
+
+- name: Configure pgPool
+  template: src={{ item }}.j2 dest=/etc/pgpool-II-93/{{ item }} mode=0664 owner=postgres group=postgres
+  with_items:
+   - pool_passwd
+  notify: restart pgpool
+
+- name: Start pgpool
+  service: name=pgpool-II-93 state=started enabled=yes
 

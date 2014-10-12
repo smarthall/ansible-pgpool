@@ -54,14 +54,14 @@ client_idle_limit = 0
 
 # - Where to log -
 
-log_destination = 'stderr'
+log_destination = 'syslog'
 
 # - What to log -
 
 print_timestamp = on
-log_connections = off
-log_hostname = off
-log_statement = off
+log_connections = on
+log_hostname = on
+log_statement = on
 log_per_node_statement = off
 log_standby_delay = 'if_over_threshold'
 
@@ -72,7 +72,7 @@ syslog_ident = 'pgpool'
 
 # - Debug -
 
-debug_level = 0
+debug_level = 1
 
 #------------------------------------------------------------------------------
 # FILE LOCATIONS
@@ -124,7 +124,7 @@ master_slave_sub_mode = 'stream'
 
 sr_check_period = 0
 sr_check_user = 'pgpool'
-sr_check_password = 'pgpool'
+sr_check_password = 'poolpass'
 delay_threshold = 0
 
 # - Special commands -
@@ -154,7 +154,7 @@ pgpool2_hostname = ''
 health_check_period = 0
 health_check_timeout = 20
 health_check_user = 'pgpool'
-health_check_password = 'pgpool'
+health_check_password = 'poolpass'
 health_check_max_retries = 0
 health_check_retry_delay = 1
 
@@ -184,7 +184,7 @@ client_idle_limit_in_recovery = 0
 
 # - Enabling -
 
-use_watchdog = off
+use_watchdog = on
 
 # -Connection to up stream servers -
 
@@ -193,7 +193,7 @@ ping_path = '/bin'
 
 # - Watchdog communication Settings -
 
-wd_hostname = ''
+wd_hostname = '{{ inventory_hostname }}'
 wd_port = 9000
 wd_authkey = ''
 
