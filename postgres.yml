@@ -5,11 +5,16 @@
 
    # Machine setup roles
    - vagrant_sudo_fix
-   - disable_firewall
-   - etc_hosts
    - epel
+   - centos_libevent_fix
+   - disable_firewall
 
+   - role: etc_hosts
+     interface: eth1
 
-   - postgres
-   - pgpool
+   - role: postgres
+     interface: eth1
+
+   - role: pgpool
+     interface: eth1
 

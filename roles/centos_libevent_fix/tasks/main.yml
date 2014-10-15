@@ -1,0 +1,10 @@
+---
+# For some reason this pretends to fail >.<
+- name: Update libevent
+  yum: name={{ item }} state=latest
+  with_items:
+   - libevent
+   - nfs-utils
+   - libtirpc
+  ignore_errors: yes
+
