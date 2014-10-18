@@ -1,0 +1,20 @@
+---
+# Calculate encrypted passwords like this:
+#
+# USER=app
+# PASS=newpass
+#
+# echo "md5`echo -n "${PASS}${USER}" | md5sum`"
+#
+# This example should output:
+# md584394a96c163657f5b2ce828070e55e0
+#
+
+setup_postgres_users:
+  daniel:
+    enc_pass: md5688a906d858a73ce35153fb926347e9e
+    roles: SUPERUSER
+  application:
+    enc_pass: md5860482b91d1afbb7c863989cc4e26e42
+    roles: LOGIN
+    db: app

@@ -1,1 +1,4 @@
 pgpool:md5c06da7894dec8ac8075deca3fe15c5c5
+{% for key, value in postgres_users.iteritems() %}
+{{ key }}:{{ value.enc_pass }}
+{% endfor %}

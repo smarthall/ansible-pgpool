@@ -1,10 +1,14 @@
 ---
 - name: Setup the postgres machines
   hosts: postgres
+  vars_files:
+   - vars/postgres.yml
   roles:
    - role: postgres
      interface: eth1
+     postgres_users: "{{ setup_postgres_users }}"
 
    - role: pgpool
      interface: eth1
+     postgres_users: "{{ setup_postgres_users }}"
 
