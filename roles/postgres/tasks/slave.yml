@@ -6,32 +6,49 @@
    - pg_hba.conf
   notify: restart postgres
 
-- name: Install recovery config
-  template: src=recovery.conf.j2 dest=/var/lib/pgsql/9.3/data/recovery.conf owner=postgres group=postgres mode=0600
-  notify: restart postgres
-  register: recconf
+- name: Check the recovery file (before)
+  command: shasum /var/lib/pgsql/9.3/data/recovery.conf
+  ignore_errors: yes
+  register: recovery_before
+  changed_when: no
+
+- name: Create a recovery file
+  shell: sed 's/XXX_POSTGRES_MASTER_XXX/{{ postgres_master }}/g' /usr/local/etc/pg_recovery_template.conf > /var/lib/pgsql/9.3/data/recovery.conf
+  changed_when: no
+
+- name: Check the recovery file (after)
+  command: shasum /var/lib/pgsql/9.3/data/recovery.conf
+  ignore_errors: yes
+  register: recovery_after
+  changed_when: no
+
+- debug: var="{{ recovery_before }}"
+- debug: var="{{ recovery_after }}"
 
 - name: Stop Postgres
   service: name=postgresql-9.3 state=stopped
-  when: recconf|changed
+  when: recovery_before.stdout != recovery_after.stdout
 
 - name: Remove old database
   command: rm -rf /var/lib/pgsql/9.3/data
-  when: recconf|changed
+  when: recovery_before.stdout != recovery_after.stdout
 
 - name: Initialize the DB from the master
-  when: recconf|changed
   command: pg_basebackup --dbname="postgresql://repl:replpass@{{ postgres_master }}/" -D /var/lib/pgsql/9.3/data -P --xlog-method=stream
   sudo_user: postgres
+  when: recovery_before.stdout != recovery_after.stdout
 
 - name: Reinstall the config files
   template: src={{ item }}.j2 dest=/var/lib/pgsql/9.3/data/{{ item }} owner=postgres group=postgres mode=600
   with_items:
    - postgresql.conf
    - pg_hba.conf
-   - recovery.conf
   notify: restart postgres
-  when: recconf|changed
+  when: recovery_before.stdout != recovery_after.stdout
+
+- name: Create a recovery file
+  shell: sed 's/XXX_POSTGRES_MASTER_XXX/{{ postgres_master }}/g' /usr/local/etc/pg_recovery_template.conf > /var/lib/pgsql/9.3/data/recovery.conf
+  when: recovery_before.stdout != recovery_after.stdout
 
 - name: Start Postgres
   service: name=postgresql-9.3 state=started enabled=yes

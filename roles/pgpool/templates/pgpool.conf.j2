@@ -15,7 +15,7 @@ pcp_socket_dir = '/tmp'
 backend_hostname{{ loop.index0 }} = '{{ host }}'
 backend_port{{ loop.index0 }} = 5432
 backend_weight{{ loop.index0 }} = 1
-backend_data_directory{{ loop.index0 }} = '/var/lib/postgresql/9.3/data'
+backend_data_directory{{ loop.index0 }} = '/var/lib/pgsql/9.3/data'
 backend_flag{{ loop.index0 }} = 'ALLOW_TO_FAILOVER'
 {% endfor %}
 
@@ -60,8 +60,8 @@ log_destination = 'syslog'
 
 print_timestamp = on
 log_connections = on
-log_hostname = on
-log_statement = on
+log_hostname = off
+log_statement = off
 log_per_node_statement = off
 log_standby_delay = 'if_over_threshold'
 
@@ -151,18 +151,18 @@ pgpool2_hostname = ''
 # HEALTH CHECK
 #------------------------------------------------------------------------------
 
-health_check_period = 0
-health_check_timeout = 20
+health_check_period = 10
+health_check_timeout = 5
 health_check_user = 'pgpool'
 health_check_password = 'poolpass'
-health_check_max_retries = 0
+health_check_max_retries = 3
 health_check_retry_delay = 1
 
 #------------------------------------------------------------------------------
 # FAILOVER AND FAILBACK
 #------------------------------------------------------------------------------
 
-failover_command = '/usr/local/libexec/pgpool/failover.sh'
+failover_command = '/usr/local/libexec/pgpool/failover.sh %d %P %H %R'
 failback_command = ''
 fail_over_on_backend_error = on
 search_primary_node_timeout = 10
@@ -171,8 +171,8 @@ search_primary_node_timeout = 10
 # ONLINE RECOVERY
 #------------------------------------------------------------------------------
 
-recovery_user = 'nobody'
-recovery_password = ''
+recovery_user = 'pgpool'
+recovery_password = 'poolpass'
 recovery_1st_stage_command = ''
 recovery_2nd_stage_command = ''
 recovery_timeout = 90

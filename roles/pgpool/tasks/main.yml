@@ -19,6 +19,7 @@
   copy: src={{ item }} dest=/usr/local/libexec/pgpool/{{ item }} mode=0755 owner=root group=root
   with_items:
    - failover.sh
+   - recovery.sh
 
 - name: Configure pgPool
   template: src={{ item }}.j2 dest=/etc/pgpool-II-93/{{ item }} mode=0664 owner=postgres group=postgres

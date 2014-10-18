@@ -11,9 +11,13 @@
    - postgresql93-server
    - postgresql93-contrib
    - python-psycopg2
+   - perl-Digest-SHA
 
 - name: Make Ansible Facts directory
   file: path=/etc/facts.d state=directory
+
+- name: Install recovery template
+  template: src=pg_recovery_template.conf.j2 dest=/usr/local/etc/pg_recovery_template.conf
 
 - name: Initialise the DB server
   command: creates=/var/lib/pgsql/9.3/data/PG_VERSION /etc/init.d/postgresql-9.3 initdb
