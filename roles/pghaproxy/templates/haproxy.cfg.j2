@@ -1,0 +1,40 @@
+#---------------------------------------------------------------------
+# Global settings
+#---------------------------------------------------------------------
+global
+    log         /dev/log local2
+
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     4000
+    user        haproxy
+    group       haproxy
+    daemon
+
+    # turn on stats unix socket
+    stats socket /var/lib/haproxy/stats
+
+#---------------------------------------------------------------------
+# common defaults that all the 'listen' and 'backend' sections will
+# use if not designated in their block
+#---------------------------------------------------------------------
+defaults
+    log                     global
+    retries                 3
+    timeout queue           1m
+    timeout connect         10s
+    timeout client          5m
+    timeout server          5m
+    timeout check           10s
+    maxconn                 3000
+
+#---------------------------------------------------------------------
+# Postgres
+#---------------------------------------------------------------------
+listen pgpool 0.0.0.0:{{ port }}
+	mode tcp
+    balance roundrobin
+
+{% for host in groups[postgres_group] %}
+    server {{ host }} {{ host }}:{{ backend_port }} check
+{% endfor %}

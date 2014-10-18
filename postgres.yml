@@ -2,16 +2,6 @@
 - name: Setup the postgres machines
   hosts: postgres
   roles:
-
-   # Machine setup roles
-   - vagrant_sudo_fix
-   - epel
-   - centos_libevent_fix
-   - disable_firewall
-
-   - role: etc_hosts
-     interface: eth1
-
    - role: postgres
      interface: eth1
 

@@ -1,0 +1,15 @@
+---
+- name: Initial machine setup
+  hosts: all
+  roles:
+   # Machine setup roles
+   - vagrant_sudo_fix
+   - epel
+   - centos_libevent_fix
+   - disable_firewall
+
+   - role: etc_hosts
+     interface: eth1
+
+- include: "postgres.yml"
+- include: "lb.yml"

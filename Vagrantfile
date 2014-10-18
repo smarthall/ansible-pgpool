@@ -18,13 +18,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define 'postgres-3' do |machine|
     machine.vm.hostname = 'postgres-3'
     machine.vm.network 'private_network', ip: "192.168.77.12"
+  end
+
+  config.vm.define 'lb-1' do |machine|
+    machine.vm.hostname = 'lb-1'
+	machine.vm.network 'private_network', ip: "192.168.77.254"
+	machine.vm.network 'forwarded_port', guest: 5432, host: 5432
+	machine.vm.network 'forwarded_port', guest: 80, host: 8080
 
     machine.vm.provision :ansible do |ansible|
-      ansible.playbook = "postgres.yml"
+      ansible.playbook = "all.yml"
       ansible.limit = "all"
       ansible.sudo = true
       ansible.groups = {
-        "postgres" => ["postgres-1", "postgres-2", "postgres-3"]
+        "postgres" => ["postgres-1", "postgres-2", "postgres-3"],
+		"lb" => ["lb-1"],
       }
     end
   end

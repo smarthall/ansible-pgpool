@@ -1,0 +1,13 @@
+---
+- name: Install HAProxy
+  yum: name={{ item }} state=installed
+  with_items:
+   - haproxy
+
+- name: Configure HAProxy
+  template: src="haproxy.cfg.j2" dest="/etc/haproxy/haproxy.cfg"
+  notify: restart haproxy
+
+- name: Start HAProxy
+  service: name=haproxy state=started enabled=yes
+

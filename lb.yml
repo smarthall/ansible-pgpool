@@ -1,0 +1,7 @@
+---
+- name: Setup the load balancer
+  hosts: lb
+  roles:
+   - role: pghaproxy
+     postgres_group: postgres
+
