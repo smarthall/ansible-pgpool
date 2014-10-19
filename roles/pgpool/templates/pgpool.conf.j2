@@ -122,10 +122,10 @@ master_slave_sub_mode = 'stream'
 
 # - Streaming -
 
-sr_check_period = 0
+sr_check_period = 60
 sr_check_user = 'pgpool'
 sr_check_password = 'poolpass'
-delay_threshold = 0
+delay_threshold = 30
 
 # - Special commands -
 
@@ -173,9 +173,9 @@ search_primary_node_timeout = 10
 
 recovery_user = 'pgpool'
 recovery_password = 'poolpass'
-recovery_1st_stage_command = ''
+recovery_1st_stage_command = 'recovery.sh'
 recovery_2nd_stage_command = ''
-recovery_timeout = 90
+recovery_timeout = 30
 client_idle_limit_in_recovery = 0
 
 #------------------------------------------------------------------------------

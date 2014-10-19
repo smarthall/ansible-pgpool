@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+STATUS='not configured'
+
+RECOVERY=$(sudo -u postgres psql -q -S -t -c "SELECT pg_is_in_recovery();" 2>/dev/null)
+
+if [ "${RECOVERY}" == " t" ]; then
+  STATUS="slave"
+else
+  STATUS="master"
+fi
+
+echo "{\"postgres_status\":\"${STATUS}\"}"

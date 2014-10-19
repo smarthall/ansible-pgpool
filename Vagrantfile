@@ -15,10 +15,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     machine.vm.hostname = 'postgres-2'
     machine.vm.network 'private_network', ip: "192.168.77.11"
   end
-  config.vm.define 'postgres-3' do |machine|
-    machine.vm.hostname = 'postgres-3'
-    machine.vm.network 'private_network', ip: "192.168.77.12"
-  end
 
   config.vm.define 'lb-1' do |machine|
     machine.vm.hostname = 'lb-1'

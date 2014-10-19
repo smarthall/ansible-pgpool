@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Start PostgreSQL on the recovery target node
+#
+if [ $# -ne 2 ]
+then
+    echo "pgpool_remote_start remote_host remote_datadir"
+    exit 1
+fi
+
+DEST=$1
+DESTDIR=$2
+
+ssh -t postgres@$DEST -- sudo /etc/init.d/postgresql-9.3 start 2>/dev/null 1>/dev/null < /dev/null &

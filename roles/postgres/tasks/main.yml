@@ -33,4 +33,6 @@
 - include: slave.yml
   when: postgres_status == "slave"
 
+- name: Install custom fact
+  copy: src=postgres.fact dest=/etc/ansible/facts.d/postgres.fact mode=0755
 

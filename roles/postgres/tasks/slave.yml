@@ -53,6 +53,3 @@
 - name: Start Postgres
   service: name=postgresql-9.3 state=started enabled=yes
 
-- name: Save the state of this machine
-  copy: content='{"postgres_status":"slave"}' dest=/etc/ansible/facts.d/postgres.fact
-

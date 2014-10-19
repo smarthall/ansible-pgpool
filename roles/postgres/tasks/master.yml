@@ -19,13 +19,6 @@
     role_attr_flags: REPLICATION
   sudo_user: postgres
 
-- name: Create Postgres pgPool User
-  postgresql_user:
-    name: pgpool
-    password: poolpass
-    role_attr_flags: LOGIN
-  sudo_user: postgres
-
 - name: Make sure required databases exist
   postgresql_db:
     name: "{{ item.value.db|default('postgres') }}"
@@ -41,7 +34,4 @@
     role_attr_flags: "{{ item.value.roles|default('') }}"
   with_dict: postgres_users
   sudo_user: postgres
-
-- name: Save the state of this machine
-  copy: content='{"postgres_status":"master"}' dest=/etc/ansible/facts.d/postgres.fact
 
