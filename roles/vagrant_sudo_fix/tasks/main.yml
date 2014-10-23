@@ -10,6 +10,14 @@
   lineinfile:
     dest: /etc/sudoers
     regexp: '^Defaults   !visiblepw$'
+    state: absent
+    validate: 'visudo -cf %s'
+
+
+- name: Dont require a tty
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^#Defaults   !visiblepw$'
     line: '#Defaults   !visiblepw'
     validate: 'visudo -cf %s'
 
