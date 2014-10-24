@@ -23,7 +23,7 @@ setup_postgres_users:
     db: app
 
 wal_e:
-  enabled: yes
+  enabled: no
   env:
     AWS_ACCESS_KEY_ID: AKTESTVALUEONE
     AWS_SECRET_ACCESS_KEY: AKSECRETVALUETWO

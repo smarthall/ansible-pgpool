@@ -22,9 +22,6 @@
   register: recovery_after
   changed_when: no
 
-- debug: var="{{ recovery_before }}"
-- debug: var="{{ recovery_after }}"
-
 - name: Stop Postgres
   service: name=postgresql-9.3 state=stopped
   when: recovery_before.stdout != recovery_after.stdout

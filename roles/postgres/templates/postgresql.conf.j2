@@ -24,7 +24,12 @@ wal_level = hot_standby
 # - Archiving -
 
 archive_mode = on
+archive_timeout = 60
+{% if wal_e_enabled %}
+archive_command = '/usr/local/bin/wal-e-wrapper wal-push %p'
+{% else %}
 archive_command = 'test ! -f /var/lib/postgresql/9.1/archiving_active || cp -i %p /var/lib/postgresql/9.3/archive/%f'
+{% endif %}
 
 # - Sending Server(s) -
 

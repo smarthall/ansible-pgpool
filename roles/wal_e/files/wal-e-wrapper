@@ -1,0 +1,6 @@
+#!/bin/bash
+
+source /etc/sysconfig/wal-e
+
+exec /usr/bin/wal-e $@
+

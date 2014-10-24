@@ -2,7 +2,9 @@
 - name: Install dependencies
   yum: name={{ item }} state=installed
   with_items:
+   - pv
    - gcc
+   - lzop
    - python-pip
    - python-devel
    - postgresql93-devel
@@ -11,5 +13,17 @@
   pip: name=wal-e state=present
 
 - name: Install variables for WAL-E
-  template: src=sysconfig.j2 dest=/etc/sysconfig/wal-e owner=postgres group=postgres mode=0640
+  template: src=sysconfig.j2 dest=/etc/sysconfig/wal-e owner=root group=root mode=0644
+
+- name: Install WAL-E wrapper script
+  copy: src=wal-e-wrapper dest=/usr/local/bin/wal-e-wrapper owner=root group=root mode=0755
+
+- name: Perform base backup daily
+  cron:
+   name: WAL-E Base Backup
+   cron_file: wal-e
+   hour: 2
+   minute: 0
+   user: postgres
+   job: /usr/local/bin/wal-e-wrapper backup-push /var/lib/pgsql/9.3/ 2>&1 | logger -t wal-e-backup
 

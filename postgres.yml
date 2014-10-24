@@ -15,6 +15,4 @@
    - role: pgpool
      interface: eth1
      postgres_users: "{{ setup_postgres_users }}"
-  tasks:
-   - debug: var=wal_e
 
