@@ -1,3 +1,4 @@
 ---
 interface: eth0
 postgres_users: {}
+wal_e_enabled: no
