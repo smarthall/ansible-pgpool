@@ -4,9 +4,13 @@
   vars_files:
    - vars/postgres.yml
   roles:
+   - role: wal_e
+     when: wal_e.enabled
+
    - role: postgres
      interface: eth1
      postgres_users: "{{ setup_postgres_users }}"
+     wal_e_enabled: "{{ wal_e.enabled }}"
 
    - role: pgpool
      interface: eth1

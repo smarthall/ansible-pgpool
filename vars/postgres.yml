@@ -1,4 +1,7 @@
 ---
+# If you are running this in production you probably want to
+# use ansible-vault to encrypt this file.
+
 # Calculate encrypted passwords like this:
 #
 # USER=app
@@ -18,3 +21,10 @@ setup_postgres_users:
     enc_pass: md5860482b91d1afbb7c863989cc4e26e42
     roles: LOGIN
     db: app
+
+wal_e:
+  enabled: no
+  env:
+    AWS_ACCESS_KEY_ID: AKTESTVALUEONE
+    AWS_SECRET_ACCESS_KEY: AKSECRETVALUETWO
+    WALE_S3_PREFIX: "s3://my-bucket/test-location/{{ inventory_hostname }}"
