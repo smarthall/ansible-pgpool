@@ -4,6 +4,8 @@
   vars_files:
    - vars/postgres.yml
   roles:
+   - role: postgres_repo
+
    - role: wal_e
      when: wal_e.enabled
 
