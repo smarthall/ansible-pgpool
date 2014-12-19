@@ -1,10 +1,14 @@
 ---
 - name: Create SSH keys for the user in question
   user: name={{ ssh_user }} generate_ssh_key=yes ssh_key_bits=2048
+
+- name: Get the public key off the machine
+  slurp:
+    src: "~{{ ssh_user }}/.ssh/id_rsa.pub"
   register: sshkey
 
 - name: Install key on remote hosts
-  authorized_key: user={{ ssh_user }} key="{{ sshkey.ssh_public_key }}"
+  authorized_key: user={{ ssh_user }} key="{{ sshkey.content|b64decode }}"
   delegate_to: "{{ item }}"
   with_items: play_hosts
 
